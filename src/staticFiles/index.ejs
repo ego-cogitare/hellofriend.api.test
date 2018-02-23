@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <% if (htmlWebpackPlugin.options.externalSources) { %>
+        <% for (var chunk in htmlWebpackPlugin.options.externalSources.css) { %>
+          <link href="<%= htmlWebpackPlugin.options.externalSources.css[chunk] %>" rel="stylesheet">
+        <% } %>
+      <% } %>
+
+      <% if (htmlWebpackPlugin.options.externalSources) { %>
+        <% for (var chunk in htmlWebpackPlugin.options.externalSources.js) { %>
+          <script src="<%= htmlWebpackPlugin.options.externalSources.js[chunk] %>"></script>
+        <% } %>
+      <% } %>
+  </head>
+  <body>
+    <div id="app" />
+    <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
+      <script src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>" defer></script>
+    <% } %>
+  </body>
+</html>

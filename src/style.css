@@ -1,0 +1,22 @@
+.navbar {
+  border-radius: 0;
+  color: #fff;
+  padding: 20px 0 20px 20px;
+}
+
+.bd-sidebar {
+  height: calc(100vh - 70px);
+  overflow: auto;
+  border-right: 1px solid #ccc;
+}
+
+.bd-example {
+  position: relative;
+  padding: 1rem;
+  border: solid #e7e7e9;
+  border-width: .2rem;
+}
+
+.nav-section {
+  margin-left: 15px;
+}
