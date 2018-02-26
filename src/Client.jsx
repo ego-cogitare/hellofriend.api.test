@@ -86,6 +86,26 @@ export default class Client extends React.Component {
         url: '/api/user/answer/{answer}',
         type: 'get'
       },
+      'get:settings:list': {
+        url: '/api/user/settings',
+        type: 'get'
+      },
+      'get:settings:by:key': {
+        url: '/api/user/settings/key/{key}',
+        type: 'get'
+      },
+      'get:settings:by:section': {
+        url: '/api/user/settings/{section}',
+        type: 'get'
+      },
+      'store:settings': {
+        url: '/api/user/settings',
+        type: 'post'
+      },
+      'remove:settings': {
+        url: '/api/user/settings/{id}',
+        type: 'delete'
+      },
     };
 
     this.state = {
@@ -597,6 +617,138 @@ export default class Client extends React.Component {
                       <label>Answer value</label>
                       <div class="form-group">
                         <input type="text" name="value" class="form-control" placeholder="Answer" />
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+                </div>
+              }
+              { // Get user settings list
+                this.state.action === 'get:settings:list' &&
+                <div class="col-md-6 bd-example">
+                  <p>Get current authenticated user settings list</p>
+                  <form onSubmit={(e) => {
+                      e.preventDefault();
+
+                      const data = $(e.target).serialize();
+                      const api = this.dataMap['get:settings:list'];
+                      request(api.url, data, api.type,
+                        (result) => this.setState({ resultJson: result }),
+                        (result) => this.setState({ resultJson: result.responseJSON })
+                      );
+                    }}>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+                </div>
+              }
+              { // Get user settings by setting key
+                this.state.action === 'get:settings:by:key' &&
+                <div class="col-md-6 bd-example">
+                  <p>Get current authenticated user settings by setting alias name</p>
+                  <form onSubmit={(e) => {
+                      e.preventDefault();
+
+                      const data = $(e.target).serialize();
+                      const api = this.dataMap['get:settings:by:key'];
+                      request(api.url.replace('{key}', e.target.key.value), data, api.type,
+                        (result) => this.setState({ resultJson: result }),
+                        (result) => this.setState({ resultJson: result.responseJSON })
+                      );
+                    }}>
+                    <div class="form-group">
+                      <label>Settings key</label>
+                      <div class="form-group">
+                        <input type="text" name="key" class="form-control" placeholder="Key" />
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+                </div>
+              }
+              { // Get user settings by setting section
+                this.state.action === 'get:settings:by:section' &&
+                <div class="col-md-6 bd-example">
+                  <p>Get current authenticated user settings by setting section (group) name</p>
+                  <form onSubmit={(e) => {
+                      e.preventDefault();
+
+                      const data = $(e.target).serialize();
+                      const api = this.dataMap['get:settings:by:section'];
+                      request(api.url.replace('{section}', e.target.section.value), data, api.type,
+                        (result) => this.setState({ resultJson: result }),
+                        (result) => this.setState({ resultJson: result.responseJSON })
+                      );
+                    }}>
+                    <div class="form-group">
+                      <label>Settings section</label>
+                      <div class="form-group">
+                        <input type="text" name="section" class="form-control" placeholder="Section" />
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+                </div>
+              }
+              { // Get question privacy settings action
+                this.state.action === 'store:settings' &&
+                <div class="col-md-6 bd-example">
+                  <p>Store setting</p>
+                  <form onSubmit={(e) => {
+                      e.preventDefault();
+
+                      const data = $(e.target).serialize();
+                      const api = this.dataMap['store:settings'];
+                      request(api.url, data, api.type,
+                        (result) => this.setState({ resultJson: result }),
+                        (result) => this.setState({ resultJson: result.responseJSON })
+                      );
+                    }}>
+                    <div class="form-group">
+                      <label>Section</label>
+                      <div class="form-group">
+                        <input type="text" name="section" class="form-control" placeholder="Section name" />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Key</label>
+                      <div class="form-group">
+                        <input type="text" name="key" class="form-control" placeholder="Key" />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Title</label>
+                      <div class="form-group">
+                        <input type="text" name="name" class="form-control" placeholder="Title" />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Value</label>
+                      <div class="form-group">
+                        <input type="text" name="value" class="form-control" placeholder="" />
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+                </div>
+              }
+              { // Delete setting
+                this.state.action === 'remove:settings' &&
+                <div class="col-md-6 bd-example">
+                  <p>Delete setting</p>
+                  <form onSubmit={(e) => {
+                      e.preventDefault();
+
+                      const data = $(e.target).serialize();
+                      const api = this.dataMap['remove:settings'];
+                      request(api.url.replace('{id}', e.target.settingId.value), data, api.type,
+                        (result) => this.setState({ resultJson: result }),
+                        (result) => this.setState({ resultJson: result.responseJSON })
+                      );
+                    }}>
+                    <div class="form-group">
+                      <label>Setting ID</label>
+                      <div class="form-group">
+                        <input type="text" name="settingId" class="form-control" placeholder="Setting ID" />
                       </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>

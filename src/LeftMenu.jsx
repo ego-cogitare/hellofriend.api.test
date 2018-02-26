@@ -156,6 +156,38 @@ export default class LeftMenu extends React.Component {
                 </li>
               </ul>
             </li>
+            <li>
+              <span class="nav-section">
+                Settings
+              </span>
+              <ul class="bd-sidesubnav">
+                <li>
+                  <a href="#" onClick={this.onMenuClick.bind(this, 'get:settings:list')}>
+                    Get Settings List
+                  </a>
+                </li>
+                <li>
+                  <a href="#" onClick={this.onMenuClick.bind(this, 'get:settings:by:key')}>
+                    Get Settings By Key
+                  </a>
+                </li>
+                <li>
+                  <a href="#" onClick={this.onMenuClick.bind(this, 'get:settings:by:section')}>
+                    Get Settings By Section
+                  </a>
+                </li>
+                <li>
+                  <a href="#" onClick={this.onMenuClick.bind(this, 'store:settings')}>
+                    Store
+                  </a>
+                </li>
+                <li>
+                  <a href="#" onClick={this.onMenuClick.bind(this, 'remove:settings')}>
+                    Delete
+                  </a>
+                </li>
+              </ul>
+            </li>
           </ul>
         </div>
       </nav>
