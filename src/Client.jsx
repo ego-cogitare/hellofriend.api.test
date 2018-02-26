@@ -26,6 +26,10 @@ export default class Client extends React.Component {
         url: '/api/auth/user/{user}',
         type: 'get'
       },
+      'get:user:profile:by:id': {
+        url: '/api/user/profile/{id}',
+        type: 'get'
+      },
       'user:update': {
         url: '/api/auth/user/{user}',
         type: 'put'
@@ -56,6 +60,30 @@ export default class Client extends React.Component {
       },
       'get:faq:list': {
         url: '/api/faq',
+        type: 'get'
+      },
+      'get:question:privacy': {
+        url: '/api/question/{id}',
+        type: 'get'
+      },
+      'set:question:privacy': {
+        url: '/api/question/{id}/privacy',
+        type: 'put'
+      },
+      'store:testimonial': {
+        url: '/api/testimonial',
+        type: 'post'
+      },
+      'store:user:answer': {
+        url: '/api/user/answer',
+        type: 'post'
+      },
+      'get:user:answers': {
+        url: '/api/user/answer',
+        type: 'get'
+      },
+      'get:user:answer': {
+        url: '/api/user/answer/{answer}',
         type: 'get'
       },
     };
@@ -193,7 +221,29 @@ export default class Client extends React.Component {
                     }}>
                     <div class="form-group">
                       <label>User ID</label>
-                      <input type="text" name="userId" class="form-control" placeholder="Password" />
+                      <input type="text" name="userId" class="form-control" placeholder="" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+                </div>
+              }
+              { // Get user by id action
+                this.state.action === 'get:user:profile:by:id' &&
+                <div class="col-md-6 bd-example">
+                  <p>Get user public profile info by ID</p>
+                  <form onSubmit={(e) => {
+                      e.preventDefault();
+
+                      const data = $(e.target).serialize();
+                      const api = this.dataMap['get:user:profile:by:id'];
+                      request(api.url.replace('{id}', e.target.userId.value), data, api.type,
+                        (result) => this.setState({ resultJson: result }),
+                        (result) => this.setState({ resultJson: result.responseJSON })
+                      );
+                    }}>
+                    <div class="form-group">
+                      <label>User ID</label>
+                      <input type="text" name="userId" class="form-control" placeholder="" />
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                   </form>
@@ -369,6 +419,186 @@ export default class Client extends React.Component {
                         (result) => this.setState({ resultJson: result.responseJSON })
                       );
                     }}>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+                </div>
+              }
+              { // Get question privacy settings action
+                this.state.action === 'get:question:privacy' &&
+                <div class="col-md-6 bd-example">
+                  <p>Get question privacy settings for current authenticated user</p>
+                  <form onSubmit={(e) => {
+                      e.preventDefault();
+
+                      const data = $(e.target).serialize();
+                      const api = this.dataMap['get:question:privacy'];
+                      request(api.url.replace('{id}', e.target.questionId.value), data, api.type,
+                        (result) => this.setState({ resultJson: result }),
+                        (result) => this.setState({ resultJson: result.responseJSON })
+                      );
+                    }}>
+                    <div class="form-group">
+                      <label>Question ID</label>
+                      <input type="number" name="questionId" class="form-control" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+                </div>
+              }
+              { // Set question privacy settings action
+                this.state.action === 'set:question:privacy' &&
+                <div class="col-md-6 bd-example">
+                  <p>Set question privacy settings for current authenticated user</p>
+                  <form onSubmit={(e) => {
+                      e.preventDefault();
+
+                      const data = $(e.target).serialize();
+                      const api = this.dataMap['set:question:privacy'];
+                      request(api.url.replace('{id}', e.target.questionId.value), data, api.type,
+                        (result) => this.setState({ resultJson: result }),
+                        (result) => this.setState({ resultJson: result.responseJSON })
+                      );
+                    }}>
+                    <div class="form-group">
+                      <label>Question ID</label>
+                      <input type="number" name="questionId" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>Question ID</label>
+                      <select name="privacy_level" class="form-control">
+                        <option value="">--Select privacy level--</option>
+                        <option value="1">Show All</option>
+                        <option value="2">Show to all my friends</option>
+                        <option value="3">Show to selected friends</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>Show for users:</label>
+                      <div class="form-group">
+                        <input type="number" name="privacy_users[]" class="form-control" />
+                        <input type="number" name="privacy_users[]" class="form-control" />
+                        <input type="number" name="privacy_users[]" class="form-control" />
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+                </div>
+              }
+              { // Get question privacy settings action
+                this.state.action === 'store:testimonial' &&
+                <div class="col-md-6 bd-example">
+                  <p>Add testimonial</p>
+                  <form onSubmit={(e) => {
+                      e.preventDefault();
+
+                      const data = $(e.target).serialize();
+                      const api = this.dataMap['store:testimonial'];
+                      request(api.url, data, api.type,
+                        (result) => this.setState({ resultJson: result }),
+                        (result) => this.setState({ resultJson: result.responseJSON })
+                      );
+                    }}>
+                    <div class="form-group">
+                      <label>Ratio</label>
+                      <select name="rate" class="form-control">
+                        <option value="">--Ratio--</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>Message</label>
+                      <div class="form-group">
+                        <textarea name="message" class="form-control"></textarea>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Agree to show this message on a site</label>
+                      <div class="form-group">
+                        <input type="checkbox" name="user_agreement" value="1" class="formcontrol" />
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+                </div>
+              }
+              { // Get users answers list
+                this.state.action === 'get:user:answers' &&
+                <div class="col-md-6 bd-example">
+                  <p>Get answers list for the authenticated user</p>
+                  <form onSubmit={(e) => {
+                      e.preventDefault();
+
+                      const data = $(e.target).serialize();
+                      const api = this.dataMap['get:user:answers'];
+                      request(api.url, data, api.type,
+                        (result) => this.setState({ resultJson: result }),
+                        (result) => this.setState({ resultJson: result.responseJSON })
+                      );
+                    }}>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+                </div>
+              }
+              { // Get users answers list
+                this.state.action === 'get:user:answer' &&
+                <div class="col-md-6 bd-example">
+                  <p>Get answer data by ID</p>
+                  <form onSubmit={(e) => {
+                      e.preventDefault();
+
+                      const data = $(e.target).serialize();
+                      const api = this.dataMap['get:user:answer'];
+                      request(api.url.replace('{answer}', e.target.answerId.value), data, api.type,
+                        (result) => this.setState({ resultJson: result }),
+                        (result) => this.setState({ resultJson: result.responseJSON })
+                      );
+                    }}>
+                    <div class="form-group">
+                      <label>Answer ID</label>
+                      <input type="number" name="answerId" class="form-control" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+                </div>
+              }
+              { // Get question privacy settings action
+                this.state.action === 'store:user:answer' &&
+                <div class="col-md-6 bd-example">
+                  <p>Add testimonial</p>
+                  <form onSubmit={(e) => {
+                      e.preventDefault();
+
+                      const data = $(e.target).serialize();
+                      const api = this.dataMap['store:user:answer'];
+                      request(api.url, data, api.type,
+                        (result) => this.setState({ resultJson: result }),
+                        (result) => this.setState({ resultJson: result.responseJSON })
+                      );
+                    }}>
+                    <div class="form-group">
+                      <label>Question ID</label>
+                      <div class="form-group">
+                        <input type="text" name="question_id" class="form-control" placeholder="Question ID" />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Answer type</label>
+                      <select name="answer_type" class="form-control">
+                        <option value="">--Answer type--</option>
+                        <option value="1">Category</option>
+                        <option value="2">Criteria</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>Answer value</label>
+                      <div class="form-group">
+                        <input type="text" name="value" class="form-control" placeholder="Answer" />
+                      </div>
+                    </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                   </form>
                 </div>
